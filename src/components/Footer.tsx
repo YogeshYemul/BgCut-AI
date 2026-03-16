@@ -3,14 +3,14 @@ import logo from "@/assets/logo.png";
 
 const Footer = () => (
   <footer className="border-t border-border bg-card/50">
-    <div className="container mx-auto px-4 py-12">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div className="col-span-2 md:col-span-1">
+    <div className="container mx-auto px-4 py-10 sm:py-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="sm:col-span-2 lg:col-span-1">
           <div className="flex items-center gap-2 mb-4">
             <img src={logo} alt="BgCut AI" className="h-8 w-8 rounded-lg" />
             <span className="font-display font-bold">BgCut <span className="text-gradient">AI</span></span>
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground max-w-xs">
             AI-powered background removal in seconds. Simple, fast, and professional.
           </p>
         </div>
@@ -38,7 +38,7 @@ const Footer = () => (
           </div>
         </div>
       </div>
-      <div className="mt-10 pt-6 border-t border-border text-center text-sm text-muted-foreground">
+      <div className="mt-8 sm:mt-10 pt-6 border-t border-border text-center text-xs sm:text-sm text-muted-foreground">
         © {new Date().getFullYear()} BgCut AI. All rights reserved.
       </div>
     </div>

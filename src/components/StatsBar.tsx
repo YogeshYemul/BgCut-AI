@@ -8,18 +8,19 @@ const stats = [
 ];
 
 const StatsBar = () => (
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-12">
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 py-8 sm:py-11">
     {stats.map((s, i) => (
       <motion.div
         key={s.label}
-        className="text-center"
-        initial={{ opacity: 0, y: 20 }}
+        className="text-center rounded-xl py-2"
+        initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ delay: i * 0.1 }}
+        whileHover={{ y: -3 }}
+        transition={{ delay: i * 0.08, duration: 0.45, ease: "easeOut" }}
       >
-        <div className="font-display font-bold text-3xl text-gradient mb-1">{s.value}</div>
-        <div className="text-sm text-muted-foreground">{s.label}</div>
+        <div className="font-display font-bold text-2xl sm:text-3xl text-gradient mb-1">{s.value}</div>
+        <div className="text-xs sm:text-sm text-muted-foreground">{s.label}</div>
       </motion.div>
     ))}
   </div>

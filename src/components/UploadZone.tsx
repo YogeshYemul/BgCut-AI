@@ -53,14 +53,16 @@ const UploadZone = ({ onFileSelect, compact }: UploadZoneProps) => {
 
   return (
     <motion.label
-      className={`upload-zone flex flex-col items-center justify-center cursor-pointer ${
+      className={`upload-zone flex flex-col items-center justify-center cursor-pointer text-center ${
         dragActive ? "upload-zone-active" : ""
-      } ${compact ? "p-8" : "p-12 md:p-20"}`}
+      } ${compact ? "p-6 sm:p-8" : "px-5 py-8 sm:px-8 sm:py-12 md:p-16"}`}
       onDragOver={(e) => { e.preventDefault(); setDragActive(true); }}
       onDragLeave={() => setDragActive(false)}
       onDrop={onDrop}
-      whileHover={{ scale: 1.01 }}
-      transition={{ type: "spring", stiffness: 300 }}
+      whileHover={{ scale: 1.015 }}
+      whileTap={{ scale: 0.995 }}
+      animate={{ y: dragActive ? -2 : 0 }}
+      transition={{ type: "spring", stiffness: 280, damping: 20 }}
     >
       <input
         type="file"
@@ -68,21 +70,21 @@ const UploadZone = ({ onFileSelect, compact }: UploadZoneProps) => {
         className="hidden"
         onChange={onInputChange}
       />
-      <div className="bg-primary/10 rounded-full p-4 mb-4">
+      <div className={`rounded-full p-3 sm:p-4 mb-4 transition-colors ${dragActive ? "bg-primary/20" : "bg-primary/10"}`}>
         {dragActive ? (
-          <ImageIcon className="w-8 h-8 text-primary" />
+          <ImageIcon className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
         ) : (
-          <Upload className="w-8 h-8 text-primary" />
+          <Upload className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
         )}
       </div>
-      <p className="font-display font-semibold text-lg mb-1">
+      <p className="font-display font-semibold text-base sm:text-lg mb-1">
         {dragActive ? "Drop your image here" : "Drag & drop your image"}
       </p>
-      <p className="text-sm text-muted-foreground mb-3">
+      <p className="text-xs sm:text-sm text-muted-foreground mb-3">
         or click to browse • JPG, PNG, WEBP • Max 10MB
       </p>
       {error && (
-        <p className="text-sm text-destructive font-medium">{error}</p>
+        <p className="text-xs sm:text-sm text-destructive font-medium">{error}</p>
       )}
     </motion.label>
   );
