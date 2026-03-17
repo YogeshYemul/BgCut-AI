@@ -5,23 +5,47 @@ import { useState } from "react";
 import { Download, RotateCcw, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { toast } from "sonner";
+
 type WorkspaceState = "idle" | "processing" | "done";
 
 const Workspace = () => {
   const [state, setState] = useState<WorkspaceState>("idle");
   const [preview, setPreview] = useState<string | null>(null);
+  const [result, setResult] = useState<string | null>(null);
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     const url = URL.createObjectURL(file);
     setPreview(url);
     setState("processing");
-    // Simulate processing
-    setTimeout(() => setState("done"), 3000);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("https://yogesh2208.app.n8n.cloud/webhook/remove-background", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error("Failed to process image");
+
+      const blob = await response.blob();
+      const resultUrl = URL.createObjectURL(blob);
+      setResult(resultUrl);
+      setState("done");
+      toast.success("Background removed successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to remove background. Please try again.");
+      setState("idle");
+    }
   };
 
   const reset = () => {
     setState("idle");
     setPreview(null);
+    setResult(null);
   };
 
   return (
@@ -90,15 +114,17 @@ const Workspace = () => {
                         backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0",
                       }}
                     >
-                      <img src={preview} alt="Result" className="w-full h-auto" />
+                      <img src={result || ""} alt="Result" className="w-full h-auto" />
                     </div>
                   </div>
                 </div>
                 <div className="flex gap-3 justify-center">
-                  <Button variant="hero" size="lg">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PNG
-                  </Button>
+                  <a href={result || "#"} download="background-removed.png">
+                    <Button variant="hero" size="lg">
+                      <Download className="w-4 h-4 mr-2" />
+                      Download PNG
+                    </Button>
+                  </a>
                   <Button variant="hero-outline" size="lg" onClick={reset}>
                     <RotateCcw className="w-4 h-4 mr-2" />
                     Process Another
