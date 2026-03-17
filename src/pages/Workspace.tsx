@@ -23,22 +23,26 @@ const Workspace = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await fetch("https://yogesh2208.app.n8n.cloud/webhook/remove-background", {
+      // Use proxy path /api/n8n to avoid CORS issues
+      const response = await fetch("/api/n8n/webhook/remove-background", {
         method: "POST",
         body: formData,
       });
 
-      if (!response.ok) throw new Error("Failed to process image");
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Processing failed: ${response.status} ${errorText}`);
+      }
 
       const data = await response.json();
-      if (!data.url) throw new Error("Invalid response format");
+      if (!data.url) throw new Error("Invalid response format: Missing 'url' field");
       
       setResult(data.url);
       setState("done");
       toast.success("Background removed successfully!");
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to remove background. Please try again.");
+      console.error("Upload error:", error);
+      toast.error(error instanceof Error ? error.message : "Failed to remove background");
       setState("idle");
     }
   };

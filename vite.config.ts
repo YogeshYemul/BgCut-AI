@@ -10,6 +10,13 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    proxy: {
+      "/api/n8n": {
+        target: "https://yogesh2208.app.n8n.cloud",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/n8n/, ""),
+      },
+    },
   },
   plugins: [react()].filter(Boolean),
   resolve: {

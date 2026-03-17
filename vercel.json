@@ -4,6 +4,10 @@
   "buildCommand": "npm run build",
   "rewrites": [
     {
+      "source": "/api/n8n/:path*",
+      "destination": "https://yogesh2208.app.n8n.cloud/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
