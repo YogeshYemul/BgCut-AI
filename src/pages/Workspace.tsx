@@ -30,9 +30,10 @@ const Workspace = () => {
 
       if (!response.ok) throw new Error("Failed to process image");
 
-      const blob = await response.blob();
-      const resultUrl = URL.createObjectURL(blob);
-      setResult(resultUrl);
+      const data = await response.json();
+      if (!data.url) throw new Error("Invalid response format");
+      
+      setResult(data.url);
       setState("done");
       toast.success("Background removed successfully!");
     } catch (error) {
@@ -119,7 +120,7 @@ const Workspace = () => {
                   </div>
                 </div>
                 <div className="flex gap-3 justify-center">
-                  <a href={result || "#"} download="background-removed.png">
+                  <a href={result || "#"} target="_blank" rel="noopener noreferrer">
                     <Button variant="hero" size="lg">
                       <Download className="w-4 h-4 mr-2" />
                       Download PNG
