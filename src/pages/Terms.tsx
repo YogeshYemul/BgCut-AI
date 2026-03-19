@@ -14,7 +14,7 @@ const Terms = () => (
           <h2 className="font-display font-semibold text-lg text-foreground">2. Service Description</h2>
           <p>BgCut AI provides AI-powered background removal. Images are processed temporarily and deleted within 24 hours.</p>
           <h2 className="font-display font-semibold text-lg text-foreground">3. Usage Limits</h2>
-          <p>Free users receive 5 images per day. Pro and credit-based plans have their own limits as described on the pricing page.</p>
+          <p>Free users receive 30 images per day. Pro and credit-based plans have their own limits as described on the pricing page.</p>
           <h2 className="font-display font-semibold text-lg text-foreground">4. Prohibited Use</h2>
           <p>You may not use BgCut AI for illegal content, abuse our API, or attempt to reverse-engineer our services.</p>
           <h2 className="font-display font-semibold text-lg text-foreground">5. Contact</h2>

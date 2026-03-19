@@ -11,7 +11,7 @@ const plans = [
     price: "₹0",
     period: "forever",
     description: "Get started with basic background removal.",
-    features: ["5 images per day", "Standard processing", "JPG & PNG support", "Web access"],
+    features: ["30 images per day", "Standard processing", "JPG & PNG support", "Web access"],
     cta: "Get Started",
     popular: false,
   },

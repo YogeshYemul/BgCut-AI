@@ -81,7 +81,7 @@ const Index = () => {
             transition={{ delay: 0.6 }}
           >
             <Button variant="hero" size="lg" className="w-full sm:w-auto h-11 sm:h-12" asChild>
-              <Link to="/register">Start Free — 5 images/day</Link>
+              <Link to="/register">Start Free — 30 images/day</Link>
             </Button>
             <Button variant="hero-outline" size="lg" className="w-full sm:w-auto h-11 sm:h-12" asChild>
               <Link to="/pricing">View Pricing</Link>
