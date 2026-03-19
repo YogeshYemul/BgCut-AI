@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Download, RotateCcw, Loader2, History, Wand2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { useLocation } from "react-router-dom";
 
 type WorkspaceState = "idle" | "ready" | "processing" | "done";
 type WorkspaceTab = "remove" | "history";
@@ -20,6 +21,7 @@ interface HistoryItem {
 const HISTORY_KEY = "bgcut-history";
 
 const Workspace = () => {
+  const location = useLocation();
   const [state, setState] = useState<WorkspaceState>("idle");
   const [activeTab, setActiveTab] = useState<WorkspaceTab>("remove");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -37,6 +39,31 @@ const Workspace = () => {
       setHistory([]);
     }
   }, []);
+
+  useEffect(() => {
+    const state = location.state as { file?: File; fileDataUrl?: string | ArrayBuffer | null; filename?: string } | null;
+
+    if (state?.file) {
+      handleFileSelect(state.file);
+      return;
+    }
+
+    if (state?.fileDataUrl) {
+      const loadFromDataUrl = async () => {
+        try {
+          const response = await fetch(state.fileDataUrl as string);
+          const blob = await response.blob();
+          const fileName = state.filename || "upload.png";
+          const file = new File([blob], fileName, { type: blob.type || "image/png" });
+          handleFileSelect(file);
+        } catch (error) {
+          console.error("Failed to restore file from data URL", error);
+        }
+      };
+
+      loadFromDataUrl();
+    }
+  }, [location.state]);
 
   const saveHistory = (items: HistoryItem[]) => {
     setHistory(items);
@@ -181,7 +208,7 @@ const Workspace = () => {
                     <div className="rounded-xl overflow-hidden border border-border mb-5">
                       <img src={preview} alt="Selected" className="w-full h-auto" />
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="flex flex-col gap-3 justify-center sm:flex-row sm:justify-center sm:items-center">
                       <Button variant="hero" size="lg" className="w-full sm:w-auto" onClick={processBackground}>
                         Remove Background
                       </Button>

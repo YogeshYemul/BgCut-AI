@@ -21,6 +21,19 @@ const features = [
 const Index = () => {
   const navigate = useNavigate();
 
+  const handleHeroUpload = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      navigate("/workspace", {
+        state: {
+          fileDataUrl: reader.result,
+          filename: file.name,
+        },
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -58,7 +71,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.65, ease: "easeOut" }}
           >
-            <UploadZone onFileSelect={() => navigate("/workspace")} />
+            <UploadZone onFileSelect={handleHeroUpload} />
           </motion.div>
 
           <motion.div
